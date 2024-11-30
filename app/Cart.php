@@ -2,10 +2,18 @@
 
 namespace Iutrds\Tp42;
 
+use Iutrds\Tp42\Exceptions\QuantityNegativeException;
+
 class Cart {
   private array $items = [];
 
+  /**
+   * @throws QuantityNegativeException
+   */
   public function addItem(string $product, int $quantity) : void {
+    if($quantity < 1) {
+      throw new QuantityNegativeException();
+    }
     if(isset($this->items[$product])) {
       $this->items[$product] += $quantity;
     }
