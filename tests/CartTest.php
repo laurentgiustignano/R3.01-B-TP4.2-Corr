@@ -3,10 +3,10 @@
 namespace Iutrds\Tp42;
 
 use Iutrds\Tp42\Exceptions\QuantityNegativeException;
+use Iutrds\Tp42\Exceptions\UnknowProductException;
 use PHPUnit\Framework\TestCase;
 
 class CartTest extends TestCase {
-
 
   /**
    * @throws QuantityNegativeException
@@ -16,6 +16,18 @@ class CartTest extends TestCase {
     $this->expectException(QuantityNegativeException::class);
     $panier->addItem("truc", -1);
   }
+
+  /**
+   * @throws QuantityNegativeException
+   * @throws UnknowProductException
+   */
+  public function testFailSuppressionProduitInconnu() : void {
+    $panier = new Cart();
+    $this->expectException(UnknowProductException::class);
+    $panier->addItem("truc", 1);
+    $panier->removeItem("machin");
+  }
+
 
   public function testAjoutDUnSeulProduit() : void {
     $panier = new Cart();

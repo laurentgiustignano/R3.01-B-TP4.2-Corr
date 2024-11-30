@@ -3,6 +3,7 @@
 namespace Iutrds\Tp42;
 
 use Iutrds\Tp42\Exceptions\QuantityNegativeException;
+use Iutrds\Tp42\Exceptions\UnknowProductException;
 
 class Cart {
   private array $items = [];
@@ -26,7 +27,13 @@ class Cart {
     return count($this->items);
   }
 
+  /**
+   * @throws UnknowProductException
+   */
   public function removeItem(string $product) : void {
+    if(!isset($this->items[$product])) {
+      throw new UnknowProductException();
+    }
     unset($this->items[$product]);
   }
 
@@ -34,7 +41,7 @@ class Cart {
     return array_sum($this->items);
   }
 
-  public function __toString() {
+  public function __toString() : string {
     if($this->getTotalItems() > 0) {
       $retour = "Votre panier contient : " . PHP_EOL;
       foreach($this->items as $product => $quantity) {
